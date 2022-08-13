@@ -39,6 +39,9 @@ const App = () => {
       // y - find the index of where y begins in the string
       let yPosition = eachWord.search(/y/i)
 
+      let vowelPosition = eachWord.search(/[aeiou]/gi)
+      console.log("vowelPosition:", vowelPosition)
+
       // vowels - compare 0th index of string with 0th index of array
       if(eachWord[0]===vowelsArray[0]) {
         return eachWord + "way"
@@ -46,8 +49,11 @@ const App = () => {
       } else if(eachWord.includes("qu")) {
         return eachWord.slice(quPosition + 2) + eachWord.substring(0, quPosition+2) + "ay"
         // y at the end of the word
-      } else if(eachWord.endsWith("y")) {
+      } else if(eachWord.includes("y")) {
         return eachWord.slice(yPosition) + eachWord.substring(0, yPosition) + "ay"
+        // locate vowel in string and slice at that index then add the omission to the end of string
+      } else {
+        return eachWord.slice(vowelPosition) + eachWord.substring(0, vowelPosition) + "ay"
       } 
 
       // ACTION ITEM: this return will be the output of your Pig Latin'd code
