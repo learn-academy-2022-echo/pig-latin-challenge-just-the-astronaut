@@ -36,13 +36,20 @@ const App = () => {
       // qu - find the index of where qu begins in the string
       let quPosition = eachWord.search(/qu/i)
     
+      // y - find the index of where y begins in the string
+      let yPosition = eachWord.search(/y/i)
+
       // vowels - compare 0th index of string with 0th index of array
       if(eachWord[0]===vowelsArray[0]) {
         return eachWord + "way"
       // qu - determine if word has qu and then slice at the index that u will be located did joined that portion that was omitted to the end of the word
       } else if(eachWord.includes("qu")) {
         return eachWord.slice(quPosition + 2) + eachWord.substring(0, quPosition+2) + "ay"
-      }
+        // y at the end of the word
+      } else if(eachWord.endsWith("y")) {
+        return eachWord.slice(yPosition) + eachWord.substring(0, yPosition) + "ay"
+      } 
+
       // ACTION ITEM: this return will be the output of your Pig Latin'd code
       return eachWord
     })
