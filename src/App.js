@@ -35,10 +35,11 @@ const App = () => {
       
       // qu - find the index of where qu begins in the string
       let quPosition = eachWord.search(/qu/i)
-    
-      // y - find the index of where y begins in the string
-      let yPosition = eachWord.search(/y/i)
-
+      console.log("quPosition:", quPosition)
+      // last y - find the last index of y in the string
+      let lastY = eachWord.lastIndexOf('y')
+      console.log("lastY:", lastY)
+      // vowel - find index of where the first occurrence of a vowel begins
       let vowelPosition = eachWord.search(/[aeiou]/gi)
       console.log("vowelPosition:", vowelPosition)
 
@@ -48,12 +49,13 @@ const App = () => {
       // qu - determine if word has qu and then slice at the index that u will be located did joined that portion that was omitted to the end of the word
       } else if(eachWord.includes("qu")) {
         return eachWord.slice(quPosition + 2) + eachWord.substring(0, quPosition+2) + "ay"
-        // y at the end of the word
+      // locate vowel in string and slice at that index then add the omission to the end of string
+      } else if(vowelPosition !== -1) {
+          return eachWord.slice(vowelPosition) + eachWord.substring(0, vowelPosition) + "ay"
+      // use else if to make return reachable on line 62
+      // locate y and slice at that index then add the omission to the end of string
       } else if(eachWord.includes("y")) {
-        return eachWord.slice(yPosition) + eachWord.substring(0, yPosition) + "ay"
-        // locate vowel in string and slice at that index then add the omission to the end of string
-      } else {
-        return eachWord.slice(vowelPosition) + eachWord.substring(0, vowelPosition) + "ay"
+        return eachWord.slice(lastY) + eachWord.substring(0, lastY) + "ay"
       } 
 
       // ACTION ITEM: this return will be the output of your Pig Latin'd code
