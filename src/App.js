@@ -20,7 +20,7 @@ const App = () => {
       console.log("eachWord:", eachWord)
 
       // NO MODIFICATION NEEDED: this code will look at each word and identify the vowels
-      const vowelsArray = eachWord.split("").filter(vowel => {
+      const vowelsArray = eachWord.toLowerCase().split("").filter(vowel => {
         return (
           vowel === "a" || 
           vowel === "e" || 
@@ -43,8 +43,35 @@ const App = () => {
       let vowelPosition = eachWord.search(/[aeiou]/gi)
       console.log("vowelPosition:", vowelPosition)
 
+      // determine if punctuation is in a string
+      // used regex syntax to determine last value in string is letter
+      console.log("last char:", (/[a-zA-Z]/).test(eachWord[eachWord.length - 1]))
+      // used regex syntax to locate punctuation with test method
+      let herePunct = (/\p{P}/gu).test(eachWord[eachWord.length - 1])
+      console.log("herePunct:", herePunct)
+      let findPunct = eachWord.search(/\p{P}/gu)
+      let rest = eachWord.substring(0, findPunct)
+      let punct = eachWord.slice(findPunct)
+      console.log("punct:", punct)
+      console.log("rest:", rest)
+
+      if(herePunct === true && eachWord[0].toLowerCase()===vowelsArray[0]){
+        return rest + "way" + punct
+        // qu - determine if word has qu and then slice at the index that u will be located did joined that portion that was omitted to the end of the word
+      } else if(herePunct === true && eachWord.includes("qu")) {
+        return rest.slice(quPosition + 2) + rest.substring(0, quPosition+2) + "ay" + punct
+      // locate vowel in string and slice at that index then add the omission to the end of string
+      } else if(herePunct === true && vowelPosition !== -1) {
+          return rest.slice(vowelPosition) + rest.substring(0, vowelPosition) + "ay" + punct
+      // use else if to make return reachable on line 62
+      // locate y and slice at that index then add the omission to the end of string
+      } else if(herePunct === true && eachWord.includes("y")) {
+        return rest.slice(lastY) + rest.substring(0, lastY) + "ay" + punct
+      } 
+      // 
+
       // vowels - compare 0th index of string with 0th index of array
-      if(eachWord[0]===vowelsArray[0]) {
+      if(eachWord[0].toLowerCase()===vowelsArray[0]) {
         return eachWord + "way"
       // qu - determine if word has qu and then slice at the index that u will be located did joined that portion that was omitted to the end of the word
       } else if(eachWord.includes("qu")) {
