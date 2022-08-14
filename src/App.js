@@ -101,15 +101,15 @@ const App = () => {
         <br />
         <button onClick={setUpPreventDefault}>Submit</button>
         <button onClick={restartGame}>Clear</button>
+      <p className="output-section">{inputTranslated}</p>
       </div>
-      <p className="input-section">{inputTranslated}</p>
       <footer>
       {/* <img
         src={butcherPigImage}
         alt="pig with butcher cut names in pig latin"
         className="butcher-pig-image"
       /> */}
-        &copy; 2022 | Coded by: Your Names Here!
+        &copy; 2022 | Coded by: Syntactical Astronaut
       </footer>
 
     </>
