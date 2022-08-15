@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './App.css'
-import butcherPigImage from './assets/butcherPig.jpeg'
+// import butcherPigImage from './assets/butcherPig.jpeg'
 
 const App = () => {
 
@@ -20,7 +20,8 @@ const App = () => {
       console.log("eachWord:", eachWord)
 
       // NO MODIFICATION NEEDED: this code will look at each word and identify the vowels
-      const vowelsArray = eachWord.split("").filter(vowel => {
+      // ensure that vowels are lower case so they can be included in the array 
+      const vowelsArray = eachWord.toLowerCase().split("").filter(vowel => {
         return (
           vowel === "a" || 
           vowel === "e" || 
@@ -32,8 +33,69 @@ const App = () => {
       console.log("vowelsArray:", vowelsArray)
 
       // ACTION ITEM: your Pig Latin logic goes here!
+      
+      // qu - find the index of where qu begins in the string
+      let quPosition = eachWord.toLowerCase().search(/qu/i)
+      console.log("quPosition:", quPosition)
+      // last y - find the last index of y in the string
+      let lastY = eachWord.toLowerCase().lastIndexOf('y')
+      console.log("lastY:", lastY)
+      // vowel - find index of where the first occurrence of a vowel begins
+      let vowelPosition = eachWord.search(/[aeiouAEIOU]/gi)
+      console.log("vowelPosition:", vowelPosition)
 
-    
+      // determine if punctuation is in a string
+      // used regex syntax to determine last value in string is letter
+      console.log("last char:", (/[a-zA-Z]/).test(eachWord[eachWord.length - 1]))
+      // used regex syntax to locate punctuation with test method
+      let herePunct = (/\p{P}/gu).test(eachWord[eachWord.length - 1])
+      console.log("herePunct:", herePunct)
+      let findPunct = eachWord.search(/\p{P}/gu)
+      let rest = eachWord.substring(0, findPunct)
+      let punct = eachWord.slice(findPunct)
+      console.log("punct:", punct)
+      console.log("rest:", rest)
+      // error message if a punctuation is 
+      let error = (/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g).test(eachWord)
+
+
+      // STRETCH punctuation
+      if(herePunct === true && eachWord[0].toLowerCase()===vowelsArray[0]){
+        return rest + "way" + punct
+        // qu - determine if word has qu and then slice at the index that u will be located did joined that portion that was omitted to the end of the word
+      } else if(herePunct === true && eachWord.toLowerCase().includes("qu")) {
+        return rest.slice(quPosition + 2) + rest.substring(0, quPosition+2) + "ay" + punct
+      // locate vowel in string and slice at that index then add the omission to the end of string
+      } else if(herePunct === true && vowelPosition !== -1) {
+          return rest.slice(vowelPosition) + rest.substring(0, vowelPosition) + "ay" + punct
+      // use else if to make return reachable on line 62
+      // locate y and slice at that index then add the omission to the end of string
+      } else if(herePunct === true && eachWord.toLowerCase().includes("y")) {
+        return rest.slice(lastY) + rest.substring(0, lastY) + "ay" + punct
+      } 
+
+      // if punctuation is not at the last index of string
+      // STRETCH error message
+      if(error === true){
+        return `Thank you for testing the limitation of my translator. Please consider using either a different word or a more readable version of ${eachWord}.`
+      }
+
+
+      // no punctuation
+      // vowels - compare 0th index of string with 0th index of array
+      if(eachWord[0].toLowerCase()===vowelsArray[0]) {
+        return eachWord + "way"
+      // qu - determine if word has qu and then slice at the index that u will be located did joined that portion that was omitted to the end of the word
+      } else if(eachWord.toLowerCase().includes("qu")) {
+        return eachWord.slice(quPosition + 2) + eachWord.substring(0, quPosition+2) + "ay"
+      // locate vowel in string and slice at that index then add the omission to the end of string
+      } else if(vowelPosition !== -1) {
+          return eachWord.slice(vowelPosition) + eachWord.substring(0, vowelPosition) + "ay"
+      // use else if to make return reachable on line 62
+      // locate y and slice at that index then add the omission to the end of string
+      } else if(eachWord.includes("y")) {
+        return eachWord.slice(lastY) + eachWord.substring(0, lastY) + "ay"
+      } 
 
       // ACTION ITEM: this return will be the output of your Pig Latin'd code
       return eachWord
@@ -67,11 +129,6 @@ const App = () => {
   return (
     <>
       <h1>Pig Latin Translator</h1>
-      <img
-        src={butcherPigImage}
-        alt="pig with butcher cut names in pig latin"
-        className="butcher-pig-image"
-      />
       <div className="input-section">
         <h4>Enter phrase to be translated:</h4>
         <input
@@ -83,9 +140,17 @@ const App = () => {
         <br />
         <button onClick={setUpPreventDefault}>Submit</button>
         <button onClick={restartGame}>Clear</button>
+      <p className="output-section">{inputTranslated}</p>
       </div>
-      <p>{inputTranslated}</p>
-      <footer>&copy; 2022 | Coded by: Your Names Here!</footer>
+      <footer>
+      {/* <img
+        src={butcherPigImage}
+        alt="pig with butcher cut names in pig latin"
+        className="butcher-pig-image"
+      /> */}
+        &copy; 2022 | Coded by: Syntactical Astronaut
+      </footer>
+
     </>
   )
 }
